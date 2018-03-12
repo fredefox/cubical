@@ -1,23 +1,14 @@
 {-# OPTIONS --cubical  #-}
 module Cubical.Univalence where
 
-open import Cubical hiding (_≃_; idEquiv)
+open import Cubical hiding (_≃_; idEquiv ; inverse)
 open import Cubical.FromStdLib
 open import Cubical.GradLemma
 open import Cubical.Retract
 open import Cubical.NType.Properties using (lemPropF ; propIsEquiv ; propSet)
-
-
-
-record _≃_ {ℓa ℓb} (A : Set ℓa)(B : Set ℓb) : Set (ℓ-max ℓa ℓb) where
-  no-eta-equality
-  constructor con
-  field
-    eqv : A → B
-    isEqv : isEquiv A B eqv
+open import Cubical.Equivalence
 
 open _≃_
-
 
 idEquiv : ∀ {ℓ} {A : Set ℓ} → A ≃ A
 idEquiv .eqv = idFun _

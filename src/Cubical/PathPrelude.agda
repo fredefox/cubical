@@ -5,6 +5,9 @@ open import Cubical.Primitives public
 open import Cubical.Primitives public using () renaming (Sub to _[_↦_])
 open import Cubical.FromStdLib
 open import Cubical.NType public using (isContr ; isProp ; isSet)
+-- NB! This module does *not* use the same notion of equivalence `_≃_` as
+-- defined in Cubical.Equivalence!
+open import Cubical.Equivalence hiding (_≃_) public
 
 module _ {ℓ} {A : Set ℓ} where
   refl : {x : A} → x ≡ x
@@ -175,15 +178,9 @@ module _ {ℓ ℓ' : I → Level} {T : ∀ i → Set (ℓ i)} {A : ∀ i → Set
   pres j = unsafeComp A (φ ∨ (j ∨ ~ j)) (λ i → primPOr φ (j ∨ ~ j)
     (a i) \ { (j = i1) → f i (v i); (j = i0) → u i}) a0
 
-fiber : ∀ {ℓ ℓ'} {E : Set ℓ} {B : Set ℓ'} (f : E → B) (y : B) → Set (ℓ-max ℓ ℓ')
-fiber {E = E} f y = Σ[ x ∈ E ] y ≡ f x
-
 module _ {ℓ ℓ'} (A : Set ℓ) (B : Set ℓ') where
-  isEquiv : (A → B) → Set (ℓ-max ℓ ℓ')
-  isEquiv f = (y : B) → isContr (fiber f y)
-
   infix 4 _≃_
-  _≃_ = Σ _ isEquiv
+  _≃_ = Σ _ (isEquiv A B)
 
   module _ (f : _≃_) (φ : I) (t : Partial A φ) (a : B {- [ φ ↦ f t ] -})
            (p : PartialP φ (λ o → a ≡ fst f (t o))) where
@@ -195,8 +192,6 @@ module _ {ℓ ℓ'} (A : Set ℓ) (B : Set ℓ') where
 
     equivProof : a ≡ fst f equivFunc
     equivProof = snd equiv
-
-{-# BUILTIN ISEQUIV isEquiv #-}
 
 -- | The isomorphism going in the opposite direction induced by an equivalence.
 module _ {ℓ ℓ'} {A : Set ℓ} {B : Set ℓ'} where
