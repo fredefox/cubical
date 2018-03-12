@@ -1,7 +1,7 @@
 module Cubical.Equivalence where
 
 open import Cubical.FromStdLib
-open import Cubical.Primitives
+open import Cubical.Primitives using (_≡_)
 open import Cubical.NType public using (isContr)
 
 fiber : ∀ {ℓ ℓ'} {E : Set ℓ} {B : Set ℓ'} (f : E → B) (y : B) → Set (ℓ-max ℓ ℓ')
