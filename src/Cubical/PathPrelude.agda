@@ -7,7 +7,7 @@ open import Cubical.FromStdLib
 open import Cubical.NType public using (isContr ; isProp ; isSet)
 -- NB! This module does *not* use the same notion of equivalence `_≃_` as
 -- defined in Cubical.Equivalence!
-open import Cubical.Equivalence hiding (_≃_) public
+open import Cubical.Equivalence using (fiber ; isEquiv) public
 
 module _ {ℓ} {A : Set ℓ} where
   refl : {x : A} → x ≡ x
